@@ -11,7 +11,7 @@ export class Attendees
 {
 Name:string;
 Email:string;
-SessionDate:Date;
+SessionDate:string;
 IsPresent:boolean=false;
 Course:String;
 }
