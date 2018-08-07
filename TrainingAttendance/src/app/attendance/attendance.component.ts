@@ -15,24 +15,35 @@ export class AttendanceComponent implements OnInit {
   attendees: Attendees[];
   firebaseDB: AngularFirestore;
   isPresent: boolean;
+  courses:string[]=new Array<string>();
   constructor(private af: AngularFirestore) {
 
     this.firebaseDB = af;
   }
 
   ngOnInit() {
-    this.Load();
+    this.GetCourses();
+    this.GetAttendeesListForTraining();
+    this.GetCourseAttendance();
   }
 
-  Load() {
-    debugger;
-    this.firebaseDB.collection<Employee>("/employees").valueChanges().subscribe(data => {
-      this.employees = data;
-      console.log(data);
-    });
+  
+  GetCourses(){
+    this.firebaseDB.collection<any>("/Courses").valueChanges().subscribe(data => {
+      this.courses = data[0].CourseName;
+      });
+  }
+
+  GetCourseAttendance(){
     this.firebaseDB.collection<Attendees>("/attendees").valueChanges().subscribe(data => {
       this.attendees = data;
-      console.log(data);
+      });
+  }
+  GetAttendeesListForTraining() {
+   
+    this.firebaseDB.collection<Employee>("/employees").valueChanges().subscribe(data => {
+      this.employees = data;
+      
     });
   }
 
@@ -40,27 +51,22 @@ export class AttendanceComponent implements OnInit {
     let sDate = new Date().toLocaleDateString();
     let isExist: boolean = false;
     this.employees.forEach(emp => {
-
       this.firebaseDB.collection("/attendees", ref => ref.where('SessionDate', '==', sDate).where('Name', '==', emp.Name)).valueChanges().subscribe(res => {
-        if (res.length > 0)
-          isExist = true;
+        if (emp.IsPresent && res.length == 0) {
+
+          let data = {
+            "Name": emp.Name,
+            "Course": emp.Course,
+            "Email": emp.Email,
+            "SessionDate": new Date().toLocaleDateString()
+          };
+         this.firebaseDB.collection("/attendees").add(data);
+        }
       });
-      if (emp.IsPresent && !isExist) {
-        let data = {
-          "Name": emp.Name,
-          "Course": emp.Course,
-          "Email": emp.Email,
-          "SessionDate": new Date().toLocaleDateString()
-        };
-
-        this.firebaseDB.collection("/attendees").add(data);
-
-      }
-
     });
 
 
-    this.Load();
+    this.GetCourseAttendance();
   }
   RegisterEmployeeForCourse(): void {
     let data = {

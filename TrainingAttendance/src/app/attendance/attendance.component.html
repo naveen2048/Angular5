@@ -1,35 +1,36 @@
 <div class="row">
-  <div class="col-sm-4">
-    <div class="form-group">
-      <label for="" class="col-sm-3 control-label">Name:</label>
-        
-        <input type="text" id="txtEmployeeName" [(ngModel)]="emp.Name" class="form-control"/>
+    <div class="col-sm-4">
+      <h4 style="text-align:center">Training Registration</h4>
+      <div class="form-group">
+        <label for="" class="col-sm-3 control-label">Name:</label>
+  
+        <input type="text" id="txtEmployeeName" [(ngModel)]="emp.Name" class="form-control" />
       </div>
-    
-    <div class="form-group">
-      <label for="" class="col-sm-3 control-label">Email:</label>
-        <input type="text" id="txtEmployeeEmail" [(ngModel)]="emp.Email" class="form-control"/>
+  
+      <div class="form-group">
+        <label for="" class="col-sm-3 control-label">Email:</label>
+        <input type="text" id="txtEmployeeEmail" [(ngModel)]="emp.Email" class="form-control" />
       </div>
-    
-    <div class="form-group">
-      <label for="" class="col-sm-3 control-label"> Course:</label>
-
-        <select  class="form-control" [(ngModel)]="emp.Course">
-           
-            <option value="javascript">javascript</option>
-            <option value="Angular 5">Angular 5</option>
-            <option value=".Net">.Net</option>
-         
+  
+      <div class="form-group">
+        <label for="" class="col-sm-3 control-label"> Course:</label>
+  
+        <select class="form-control" [(ngModel)]="emp.Course">
+  
+          <option *ngFor="let course of courses">{{course}}</option>
+  
+  
         </select>
       </div>
-      <div class="form-group">
-<input type="button" (click)="RegisterEmployeeForCourse()" value="Register"/>
+      <div class="form-group" style="text-align:center">
+        <input type="button" class="btn btn-primary" (click)="RegisterEmployeeForCourse()" value="Register" />
       </div>
     </div>
-    
+  
     <div class="col-sm-8">
+      <h4 style="text-align:center">Attendance Sheet</h4>
       <table class="table table-striped">
-        <thead>
+          <thead style="color: #fff; background-color: #212529; border-color: #32383e;">
           <th>Name</th>
           <th>Email</th>
           <th>Present</th>
@@ -39,36 +40,39 @@
           <tr *ngFor="let emp of employees">
             <td>{{emp.Name}}</td>
             <td>{{emp.Email}}</td>
-            <td><input type="checkbox" [checked]="emp.IsPresent" [(ngModel)]="emp.IsPresent"></td>
+            <td>
+              <input type="checkbox" class="form-check-input" [checked]="emp.IsPresent" [(ngModel)]="emp.IsPresent">
+            </td>
             <td>{{emp.Course}}</td>
           </tr>
         </tbody>
       </table>
-      <input type="button" (click)="Save()" value="Save"/>
+      <div style="text-align: center">
+        <input type="button" class="btn btn-primary" (click)="Save()" value="Save" />
+      </div>
     </div>
   
-</div>
-<div class="row">
-  <div class="col-sm-8">
-    <table class="table table-striped">
-      <thead>
-        <th>Name</th>
-        <th>Email</th>
-       
-        <th>Course</th>
-        <th>Session Date</th>
-      </thead>
-      <tbody>
-        <tr *ngFor="let emp of attendees">
-          <td>{{emp.Name}}</td>
-          <td>{{emp.Email}}</td>
-         
-          <td>{{emp.Course}}</td>
-          <td>{{emp.SessionDate}}</td>
-        </tr>
-      </tbody>
-    </table>
-    
   </div>
-
-</div>
+  <div class="row">
+    <div class="col-sm-12">
+      <h4 style="text-align:center">Course Attendance</h4>
+      <table class="table table-striped">
+        <thead style="color: #fff; background-color: #212529; border-color: #32383e;">
+          <th>Name</th>
+          <th>Email</th>
+  
+          <th>Course</th>
+          <th>Session Date</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let atn of attendees">
+            <td>{{atn.Name}}</td>
+            <td>{{atn.Email}}</td>
+  
+            <td>{{atn.Course}}</td>
+            <td>{{atn.SessionDate}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
