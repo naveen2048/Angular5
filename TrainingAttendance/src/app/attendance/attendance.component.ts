@@ -15,7 +15,7 @@ export class AttendanceComponent implements OnInit {
   attendees: Attendees[];
   firebaseDB: AngularFirestore;
   isPresent: boolean;
-  courses:string[]=new Array<string>();
+  courses: string[] = new Array<string>();
   constructor(private af: AngularFirestore) {
 
     this.firebaseDB = af;
@@ -27,23 +27,23 @@ export class AttendanceComponent implements OnInit {
     this.GetCourseAttendance();
   }
 
-  
-  GetCourses(){
+
+  GetCourses() {
     this.firebaseDB.collection<any>("/Courses").valueChanges().subscribe(data => {
       this.courses = data[0].CourseName;
-      });
+    });
   }
 
-  GetCourseAttendance(){
+  GetCourseAttendance() {
     this.firebaseDB.collection<Attendees>("/attendees").valueChanges().subscribe(data => {
       this.attendees = data;
-      });
+    });
   }
   GetAttendeesListForTraining() {
-   
+
     this.firebaseDB.collection<Employee>("/employees").valueChanges().subscribe(data => {
       this.employees = data;
-      
+
     });
   }
 
@@ -60,7 +60,7 @@ export class AttendanceComponent implements OnInit {
             "Email": emp.Email,
             "SessionDate": new Date().toLocaleDateString()
           };
-         this.firebaseDB.collection("/attendees").add(data);
+          this.firebaseDB.collection("/attendees").add(data);
         }
       });
     });
@@ -69,13 +69,22 @@ export class AttendanceComponent implements OnInit {
     this.GetCourseAttendance();
   }
   RegisterEmployeeForCourse(): void {
-    let data = {
-      "Name": this.emp.Name,
-      "Email": this.emp.Email,
-      "Course": this.emp.Course
-    };
-    this.firebaseDB.collection("/employees").add(data);
-    console.log(this.emp.Name);
+    
+    this.firebaseDB.collection("/employees", ref => ref.where('Email', '==', this.emp.Email)).valueChanges().subscribe(res => {
+      if (res.length == 0) {
+        let data = {
+          "Name": this.emp.Name,
+          "Email": this.emp.Email,
+          "Course": this.emp.Course
+        };
+        this.firebaseDB.collection("/employees").add(data);
+
+      }
+      else  {
+        alert('Emplolyee already regitered..')
+      }
+    });
+
   }
 
 }
