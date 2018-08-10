@@ -1,0 +1,29 @@
+
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <th>#</th>
+    <th>Code</th>
+    <th >Name</th>
+    <th>Author</th>
+    <th >Genere</th>
+    <th></th>
+  </thead>
+
+  <tbody>
+    <tr  *ngFor="let book of selectedBooks;let i=index">
+      <td>{{i+1}}</td>
+      <td>{{book.Code}}</td>
+      <td>{{book.Name}}</td>
+      <td>{{book.Author}}</td>
+      <td>{{book.Genere}}</td>
+      <td>
+        <input type="button" class="button" value="Remove" (click)="RemoveFromCart(book)">
+      </td>
+    </tr>
+  </tbody>
+
+</table>
+<a  class="btn btn-info" style="display: table;margin:0 auto" *ngIf="selectedBooks.length>0" routerLink="/checkout">
+<span>Checkout</span>
+</a>

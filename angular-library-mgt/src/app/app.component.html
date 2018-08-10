@@ -1,0 +1,23 @@
+<!-- <div>
+  <app-book [book]="book" *ngFor="let book of books;let i=index" [index]="i"></app-book>
+</div> -->
+
+<nav class="navbar navbar-inverse">
+  <app-menubar></app-menubar>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <router-outlet></router-outlet>
+    <!-- <div class="col-sm-12">      
+        <div class="row">         
+          <router-outlet></router-outlet>          
+        </div>     
+    </div>
+     -->
+  </div>
+</div>
+
+<footer class="footer">
+  <p>Footer Text</p>
+</footer>

@@ -1,0 +1,16 @@
+.book-card {
+    text-align: center;
+    margin: 5px;
+}
+
+.book-card .thumbnail {
+    display: inline;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; 
+}
+
+/* .panel {
+    width: 50% !important;
+    height: 50% !important;
+} */

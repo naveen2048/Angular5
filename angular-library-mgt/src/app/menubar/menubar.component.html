@@ -1,0 +1,46 @@
+<div class="container-fluid">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">Logo</a>
+  </div>
+  <div class="collapse navbar-collapse" id="myNavbar">
+    <ul class="nav navbar-nav">
+      <li class="active">
+        <a routerLink="/books" routerLinkActive="active">Home</a>
+      </li>
+      <li>
+        <a href="#">About</a>
+      </li>
+      <li>
+        <a href="#">Projects</a>
+      </li>
+      <li>
+        <a href="#">Contact</a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <a routerLink="/login" routerLinkActive="active">
+          <span class="glyphicon glyphicon-user"></span> Login</a>
+      </li>
+      <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Start Learning</a></li>
+            <li><a href="#">View All Courses</a></li>
+            <li><a href="#">Chat with a CodeGuide</a></li>
+          </ul>
+        </li>
+      <li>
+        <a routerLink="/cart" routerLinkAcive="active">
+          <span class="glyphicon glyphicon-shopping-cart" ></span> Cart
+        <span *ngIf="selectedBooksCount>0">{{selectedBooksCount}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
