@@ -30,6 +30,7 @@ export class AttendanceComponent implements OnInit {
 
   GetCourses() {
     this.firebaseDB.collection<any>("/Courses").valueChanges().subscribe(data => {
+      if(data.length>0)
       this.courses = data[0].CourseName;
     });
   }
@@ -52,13 +53,14 @@ export class AttendanceComponent implements OnInit {
     let isExist: boolean = false;
     this.employees.forEach(emp => {
       this.firebaseDB.collection("/attendees", ref => ref.where('SessionDate', '==', sDate).where('Name', '==', emp.Name)).valueChanges().subscribe(res => {
-        if (emp.IsPresent && res.length == 0) {
+        if (res.length == 0) {
 
           let data = {
             "Name": emp.Name,
             "Course": emp.Course,
             "Email": emp.Email,
-            "SessionDate": new Date().toLocaleDateString()
+            "SessionDate": new Date().toLocaleDateString(),
+            "IsPresent":emp.IsPresent
           };
           this.firebaseDB.collection("/attendees").add(data);
         }
@@ -80,9 +82,9 @@ export class AttendanceComponent implements OnInit {
         this.firebaseDB.collection("/employees").add(data);
 
       }
-      else  {
-        alert('Emplolyee already regitered..')
-      }
+      // else  {
+      //   alert('Emplolyee already regitered..')
+      // }
     });
 
   }
