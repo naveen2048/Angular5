@@ -9,6 +9,7 @@ export class Employee
 
 export class Attendees
 {
+Id:string;
 Name:string;
 Email:string;
 SessionDate:string;

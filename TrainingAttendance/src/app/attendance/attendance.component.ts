@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Employee, Attendees } from './attendance.model';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { FirebaseListObservable } from 'angularfire2/database-deprecated';
 import { DELEGATE_CTOR } from '@angular/core/src/reflection/reflection_capabilities';
+import { MatDatepickerInputEvent } from '@angular/material'
 @Component({
   selector: 'app-attendance',
   templateUrl: './attendance.component.html',
@@ -16,6 +17,8 @@ export class AttendanceComponent implements OnInit {
   firebaseDB: AngularFirestore;
   isPresent: boolean;
   courses: string[] = new Array<string>();
+  filterDate: string;
+
   constructor(private af: AngularFirestore) {
 
     this.firebaseDB = af;
@@ -26,20 +29,29 @@ export class AttendanceComponent implements OnInit {
     this.GetAttendeesListForTraining();
     this.GetCourseAttendance();
   }
+  FilterByDate(fdate: string) {
+    this.firebaseDB.collection<Attendees>("/attendees", ref => ref.where('SessionDate', '==', fdate))
+      .valueChanges().subscribe(data => {
+        this.attendees = data;
 
+      });
+  }
 
   GetCourses() {
     this.firebaseDB.collection<any>("/Courses").valueChanges().subscribe(data => {
-      if(data.length>0)
-      this.courses = data[0].CourseName;
+      if (data.length > 0)
+        this.courses = data[0].CourseName;
     });
   }
 
   GetCourseAttendance() {
+
     this.firebaseDB.collection<Attendees>("/attendees").valueChanges().subscribe(data => {
-      this.attendees = data;
+      this.attendees = data.sort((a, b) => a.SessionDate > b.SessionDate ? 1 : -1)
+
     });
   }
+
   GetAttendeesListForTraining() {
 
     this.firebaseDB.collection<Employee>("/employees").valueChanges().subscribe(data => {
@@ -60,7 +72,7 @@ export class AttendanceComponent implements OnInit {
             "Course": emp.Course,
             "Email": emp.Email,
             "SessionDate": new Date().toLocaleDateString(),
-            "IsPresent":emp.IsPresent
+            "IsPresent": emp.IsPresent
           };
           this.firebaseDB.collection("/attendees").add(data);
         }
@@ -71,7 +83,7 @@ export class AttendanceComponent implements OnInit {
     this.GetCourseAttendance();
   }
   RegisterEmployeeForCourse(): void {
-    
+
     this.firebaseDB.collection("/employees", ref => ref.where('Email', '==', this.emp.Email)).valueChanges().subscribe(res => {
       if (res.length == 0) {
         let data = {

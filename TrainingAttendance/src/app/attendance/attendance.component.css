@@ -4,3 +4,6 @@ select:required:invalid {
   option {
     color: black;
   }
+  .red{
+    color: red;
+  }
