@@ -12,11 +12,13 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 
 
-import { MatDatepickerModule,MatAutocompleteModule,MatButtonModule,MatSlideToggleModule,MatInputModule,MatNativeDateModule,MatFormFieldModule,MatTabsModule } from '@angular/material';
+import { MatDatepickerModule,MatAutocompleteModule,MatButtonModule,MatSlideToggleModule,MatInputModule,MatNativeDateModule,MatFormFieldModule,MatTabsModule,MatDialogModule } from '@angular/material';
+import { DialogComponent } from './dialog/dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
-    AttendanceComponent
+    AttendanceComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -32,11 +34,12 @@ import { MatDatepickerModule,MatAutocompleteModule,MatButtonModule,MatSlideToggl
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
-    MatTabsModule
+    MatTabsModule,MatDialogModule
    
 
   ],
   providers: [AngularFirestore],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DialogComponent]
 })
 export class AppModule { }

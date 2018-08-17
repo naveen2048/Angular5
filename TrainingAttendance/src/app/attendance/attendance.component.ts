@@ -4,6 +4,8 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { FirebaseListObservable } from 'angularfire2/database-deprecated';
 import { DELEGATE_CTOR } from '@angular/core/src/reflection/reflection_capabilities';
 import { MatDatepickerInputEvent } from '@angular/material'
+import { DialogComponent } from '../dialog/dialog.component';
+import { MatDialog } from '@angular/material';
 @Component({
   selector: 'app-attendance',
   templateUrl: './attendance.component.html',
@@ -19,7 +21,7 @@ export class AttendanceComponent implements OnInit {
   courses: string[] = new Array<string>();
   filterDate: string;
 
-  constructor(private af: AngularFirestore) {
+  constructor(private af: AngularFirestore,public dialog: MatDialog) {
 
     this.firebaseDB = af;
   }
@@ -58,14 +60,20 @@ export class AttendanceComponent implements OnInit {
 
     this.firebaseDB.collection<Employee>("/employees").valueChanges().subscribe(data => {
       this.employees = data;
+      this.employees.forEach(element => {
+        element.IsPresent=false;
+      });
 
     });
   }
 
   Save(): void {
+    
     let sDate = new Date().toLocaleDateString();
     let isExist: boolean = false;
     this.employees.forEach(emp => {
+      let exemp=emp as Employee;
+      console.log(exemp.IsPresent);
       this.firebaseDB.collection("/attendees", ref => ref.where('SessionDate', '==', sDate).where('Name', '==', emp.Name)).valueChanges().subscribe(res => {
         if (res.length == 0) {
 
@@ -80,8 +88,8 @@ export class AttendanceComponent implements OnInit {
         }
       });
     });
-
-
+    let dialog = this.dialog.open(DialogComponent,{data:"Data Saved Successfully.."});
+    this.GetAttendeesListForTraining();
     this.GetCourseAttendance();
   }
   RegisterEmployeeForCourse(): void {
