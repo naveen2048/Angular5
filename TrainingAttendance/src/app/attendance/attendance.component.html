@@ -99,7 +99,7 @@
       </div>
       <div class="col-sm-4">
         <mat-form-field class="pull-right">
-          <input matInput #ref [matDatepicker]="picker" readonly [(ngModel)]="filterDate" placeholder="Choose to filter data"
+          <input matInput #ref [matDatepicker]="picker" [(ngModel)]="filterDate" placeholder="filter by date"
           (dateInput)="FilterByDate(ref.value)">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>

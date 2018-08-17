@@ -30,11 +30,13 @@ export class AttendanceComponent implements OnInit {
     this.GetCourseAttendance();
   }
   FilterByDate(fdate: string) {
+    if(fdate!="")
     this.firebaseDB.collection<Attendees>("/attendees", ref => ref.where('SessionDate', '==', fdate))
       .valueChanges().subscribe(data => {
         this.attendees = data;
-
       });
+      else
+      this. GetCourseAttendance();
   }
 
   GetCourses() {
